@@ -11,8 +11,12 @@
     <p>Por João Vítor de Castro Martins Ferreira Nogueira</p>
     <script>
 let canvas = document.querySelector("canvas");
+let ctx=canvas.getContext("2d");
 canvas.width=480;
 canvas.height=320;
+
+ctx.fillStyle="black";
+ctx.fillRect(0,0,canvas.width,canvas.height);
     </script>
 </body>
 </html>
