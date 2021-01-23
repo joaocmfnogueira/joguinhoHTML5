@@ -35,7 +35,8 @@ let e = {
     ay : 0,
     cor : "red",
     desenhar: desenharElemento,
-    mover: moverElemento
+    mover: moverElemento,
+    controlar: perseguirAlvo
     }
 
 let K = 80;
@@ -51,8 +52,7 @@ function desenha(t){
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     //Controladores
-    e.ay = 0.5*(p.y - e.y) - 0.3*e.vy;
-    e.ax = 0.5*(p.x - e.x) - 0.3*e.vx;
+    e.controlar(p);
     
     //Atualiza dinâmica dos estados
     p.mover();
@@ -65,17 +65,29 @@ function desenha(t){
     requestAnimationFrame(desenha);
     t0=t;
 }
-       function moverElemento(){
-        this.vx = this.vx + this.ax*dt;
-        this.vy = this.vy + this.ay*dt;
-        this.x = this.x + this.vx*dt;
-        this.y = this.y + this.vy*dt;
 
+    function moverElemento(){
+             this.vx = this.vx + this.ax*dt;
+            this.vy = this.vy + this.ay*dt;
+            this.x = this.x + this.vx*dt;
+            this.y = this.y + this.vy*dt;
     }
+
     function desenharElemento(){
             ctx.fillStyle=this.cor;
             ctx.fillRect(this.x,this.y,20,20);
     }
+
+    function perseguirAlvo(alvo){
+            this.ay = 0.5*(alvo.y - this.y) - 0.3*this.vy;
+            this.ax = 0.5*(alvo.x - this.x) - 0.3*this.vx;
+    }
+
+    function evitarAlvo(alvo){
+            this.ay = -0.5*(alvo.y - this.y) - 0.3*this.vy;
+            this.ax = -0.5*(alvo.x - this.x) - 0.3*this.vx;
+    }
+
 addEventListener("keydown",teclaPressionada);
 addEventListener("keyup",teclaSolta);
 //Adiciona controle de velocidades
