@@ -18,7 +18,9 @@ let x = 150;
 let vx = 0;
 let y = 100;
 let vy = 0;
-let V = 80;
+let K = 80;
+let ax = 0;
+let ay = 0;
 let t0;
 let dt;
 requestAnimationFrame(desenha);
@@ -27,16 +29,18 @@ function desenha(t){
     t0 = t0 ?? t;
     dt=(t-t0)/1000;
     //Desenha fundo
-ctx.fillStyle="black";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="black";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
     //Atualiza dinâmica dos estados
-x = x + vx*dt;
-y = y + vy*dt;
+    vx = vx + ax*dt;
+    vy = vy + ay*dt;
+    x = x + vx*dt;
+    y = y + vy*dt;
 
     //Desenha elementos
-ctx.fillStyle="white";
-ctx.fillRect(x,y,20,20);
+    ctx.fillStyle="white";
+    ctx.fillRect(x,y,20,20);
 
 requestAnimationFrame(desenha);
 t0=t;
@@ -49,16 +53,16 @@ function teclaPressionada(e){
    console.log(e.key);
     switch (e.key) {
         case "ArrowUp":
-            vy = -V;
+            ay = -K;
             break;
         case "ArrowDown":
-            vy = +V;
+            ay = +K;
             break;
         case "ArrowLeft":
-            vx = -V;
+            ax = -K;
             break;
         case "ArrowRight":
-            vx = +V;
+            ax = +K;
             break;
     }
 }
@@ -67,15 +71,19 @@ function teclaSolta(e){
     switch (e.key) {
         case "ArrowUp":
             vy = 0;
+            ay = 0;
             break;
         case "ArrowDown":
             vy = 0;
+            ay = 0;
             break;
         case "ArrowLeft":
             vx = 0;
+            ax = 0;
             break;
         case "ArrowRight":
             vx = 0;
+            ax = 0;
             break;
     }
 }
