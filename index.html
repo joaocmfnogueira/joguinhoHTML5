@@ -20,7 +20,11 @@ let p = {
     y : 100,
     vy : 0,
     ax : 0,
-    ay : 0
+    ay : 0,
+    desenhar: function(){
+            ctx.fillStyle="white";
+            ctx.fillRect(this.x,this.y,20,20);
+    }
 };
 let e = {
     x : 300,
@@ -28,7 +32,11 @@ let e = {
     y : 200,
     vy : 0,
     ax : 0,
-    ay : 0
+    ay : 0,
+    desenhar: function(){
+            ctx.fillStyle="red";
+            ctx.fillRect(this.x,this.y,20,20);
+    }
 };
 let K = 80;
 let t0;
@@ -58,11 +66,9 @@ function desenha(t){
     e.y = e.y + e.vy*dt;
 
     //Desenha elementos
-    ctx.fillStyle="white";
-    ctx.fillRect(p.x,p.y,20,20);
+    p.desenhar();
 
-    ctx.fillStyle="red";
-    ctx.fillRect(e.x,e.y,20,20);
+    e.desenhar();
 
     requestAnimationFrame(desenha);
     t0=t;
@@ -92,19 +98,19 @@ function teclaSolta(event){
    console.log(event.key);
     switch (event.key) {
         case "ArrowUp":
-            p.vy = 0;
+           
             p.ay = 0;
             break;
         case "ArrowDown":
-            p.vy = 0;
+            
             p.ay = 0;
             break;
         case "ArrowLeft":
-            p.vx = 0;
+           
             p.ax = 0;
             break;
         case "ArrowRight":
-            p.vx = 0;
+            
             p.ax = 0;
             break;
     }
