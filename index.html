@@ -14,13 +14,22 @@ let canvas = document.querySelector("canvas");
 let ctx=canvas.getContext("2d");
 canvas.width=480;
 canvas.height=320;
+
 let x = 150; 
 let vx = 0;
 let y = 100;
 let vy = 0;
-let K = 80;
 let ax = 0;
 let ay = 0;
+
+let ex = 300; 
+let evx = 0;
+let ey = 200;
+let evy = 0;
+let eax = 0;
+let eay = 0;
+
+let K = 80;
 let t0;
 let dt;
 requestAnimationFrame(desenha);
@@ -32,18 +41,30 @@ function desenha(t){
     ctx.fillStyle="black";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
+    //Controladores
+    eay = 0.5*(y - ey) - 0.2*evy;
+    eax = 0.5*(x - ex) - 0.2*evx;
+
     //Atualiza dinâmica dos estados
     vx = vx + ax*dt;
     vy = vy + ay*dt;
     x = x + vx*dt;
     y = y + vy*dt;
 
+    evx = evx + eax*dt;
+    evy = evy + eay*dt;
+    ex = ex + evx*dt;
+    ey = ey + evy*dt;
+
     //Desenha elementos
     ctx.fillStyle="white";
     ctx.fillRect(x,y,20,20);
 
-requestAnimationFrame(desenha);
-t0=t;
+    ctx.fillStyle="red";
+    ctx.fillRect(ex,ey,20,20);
+
+    requestAnimationFrame(desenha);
+    t0=t;
 }
 
 addEventListener("keydown",teclaPressionada);
