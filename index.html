@@ -43,7 +43,28 @@ let e = {
 sprites.push(e);
 }
 
-let K = 80;
+let o = {
+    x : -1000,
+    vx : 100,
+    y : 150,
+    vy : 0,
+    ax : 0,
+    ay : 0,
+    cor : "blue",
+    desenhar: desenharElemento,
+    mover: moverElemento,  
+    controlar: function () {
+        if(this.x > canvas.width + 60)
+        {
+            this.x = -1000;
+            this.ax = 0;
+            this.vx = 0;
+        }
+    }
+    }
+    sprites.push(o);
+
+let K = 180;
 let t0;
 let dt;
 requestAnimationFrame(desenha);
@@ -62,9 +83,9 @@ function desenha(t){
         const sprite = sprites[s];
         //Controladores
         //sprite.controlar({x:250 , y:120});
-        sprite.controlar(p);
+         sprite.controlar?.(p);
         //Atualiza dinâmica dos estados 
-        sprite.mover();
+        sprite.mover?.();
         //Desenha elementos
         sprite.desenhar();
     }
@@ -118,21 +139,25 @@ function teclaPressionada(event){
 function teclaSolta(event){
    console.log(event.key);
     switch (event.key) {
-        case "ArrowUp":
-           
+        case "ArrowUp":          
             p.ay = 0;
             break;
-        case "ArrowDown":
-            
+        case "ArrowDown":         
             p.ay = 0;
             break;
-        case "ArrowLeft":
-           
+        case "ArrowLeft":          
             p.ax = 0;
             break;
-        case "ArrowRight":
-            
+        case "ArrowRight":          
             p.ax = 0;
+            break;
+        case " ":         
+        if(o.x === -1000) {
+            o.x = p.x;
+            o.y = p.y;
+            o.vx = 200;
+            o.ax = 100;          
+            }
             break;
     }
 }
