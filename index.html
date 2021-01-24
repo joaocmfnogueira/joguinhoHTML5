@@ -14,6 +14,7 @@ let canvas = document.querySelector("canvas");
 let ctx=canvas.getContext("2d");
 canvas.width=480;
 canvas.height=320;
+let pontos = 0;
 let p = {
     x : 150,
     vx : 0,
@@ -45,7 +46,7 @@ sprites.push(e);
 
 let o = {
     x : -1000,
-    vx : 100,
+    vx : 0,
     y : 150,
     vy : 0,
     ax : 0,
@@ -88,7 +89,28 @@ function desenha(t){
         sprite.mover?.();
         //Desenha elementos
         sprite.desenhar();
+
+        if(colidiram(o,sprite) && o !== sprite){
+            o.x = -1000;
+            o.y = -1000;
+            o.vx = 0;
+            o.ax = 0
+            sprite.x = 1000;
+            sprite.vx = 100;
+            sprite.ax = 0;
+            pontos++;
+        }
+        if(colidiram(p,sprite) && o !== sprite){
+           
+            sprite.x = 1000;
+            sprite.vx = 100;
+            sprite.ax = 0;
+            pontos -= 3;
+        }
     }
+    ctx.fillStyle = "yellow";
+    ctx.font = "20px Impact"
+    ctx.fillText(pontos, 20, 20);
 
     requestAnimationFrame(desenha);
     t0=t;
@@ -120,7 +142,7 @@ addEventListener("keydown",teclaPressionada);
 addEventListener("keyup",teclaSolta);
 //Adiciona controle de velocidades
 function teclaPressionada(event){
-   console.log(event.key);
+  
     switch (event.key) {
         case "ArrowUp":
             p.ay = -K;
@@ -137,7 +159,7 @@ function teclaPressionada(event){
     }
 }
 function teclaSolta(event){
-   console.log(event.key);
+   
     switch (event.key) {
         case "ArrowUp":          
             p.ay = 0;
@@ -160,6 +182,14 @@ function teclaSolta(event){
             }
             break;
     }
+}
+function colidiram(A, B) {
+    return ! (
+        (A.x > B.x + 20)
+        || (A.x + 20 < B.x)
+        || (A.y + 20 < B.y)
+        || (A.y > B.y + 20)
+    );
 }
     </script>
 </body>
